@@ -1,0 +1,47 @@
+parsed parameters:
+{
+  "grad_clip": 5, 
+  "rnn_relu_encoders": 0, 
+  "dataset": "youtube2text", 
+  "image_encoding_size": 256, 
+  "eval_max_images": -1, 
+  "drop_prob_decoder": 0.5, 
+  "word_encoding_size": 256, 
+  "max_epochs": 50, 
+  "eval_batch_size": 100, 
+  "fappend": "baseline", 
+  "generator": "clstm", 
+  "min_ppl_or_abort": -1, 
+  "tanhC_version": 0, 
+  "write_checkpoint_ppl_threshold": -1, 
+  "decay_rate": 0.999, 
+  "rnn_feed_once": 0, 
+  "hidden_size": 256, 
+  "momentum": 0.0, 
+  "worker_status_output_directory": "status/", 
+  "init_model_from": "", 
+  "learning_rate": 0.001, 
+  "checkpoint_output_directory": "cv/", 
+  "do_grad_check": 0, 
+  "word_count_threshold": 5, 
+  "batch_size": 100, 
+  "regc": 1e-08, 
+  "smooth_eps": 1e-08, 
+  "solver": "rmsprop", 
+  "eval_period": 1.0, 
+  "outdir": "results/", 
+  "drop_prob_encoder": 0.5
+}
+Initializing data provider for dataset youtube2text...
+BasicDataProvider: reading data/youtube2text/dataset.json
+BasicDataProvider: reading data/youtube2text/vgg_feats.mat
+preprocessing word counts and creating vocab based on word count threshold 5
+filtered words from 12808 to 3328 in 0.20s
+model init done.
+model has keys: bd, be, We, Wd, WLSTM, Ws
+updating: We [4096x256], be [1x256], Ws [3329x256], WLSTM [513x1024], Wd [256x3329], bd [1x3329]
+updating: We [4096x256], Ws [3329x256], WLSTM [513x1024], Wd [256x3329]
+number of learnable parameters total: 3281921
+0/24600 batch done in 4.397s. at epoch 0.00. loss cost = 43.851841, reg cost = 0.000001, ppl2 = 139.53 (smooth 139.53)
+tried to write worker status into status/oliver-Aurora-R4_status.json but got error:
+[Errno 2] No such file or directory: 'status/oliver-Aurora-R4_status.json'
