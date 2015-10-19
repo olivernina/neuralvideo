@@ -231,8 +231,7 @@ class FCOUPLEDGenerator:
       IFOGf[t,3*d:] = np.tanh(IFOG[t, 3*d:])
 
       # C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev
-
-      C[t] = (1-IFOGf[t,d:2*d]) * IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev
+      C[t] = ((1-IFOGf[t,d:2*d]) * IFOGf[t, 3*d:]) + (IFOGf[t,d:2*d] * c_prev)
 
       if tanhC_version:
         Hout[t] = IFOGf[t,2*d:3*d] * np.tanh(C[t])
