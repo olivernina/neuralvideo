@@ -3,7 +3,7 @@ import code
 
 from imagernn.utils import initw
 
-class INPUTCOUPLEDGenerator:
+class ICOUPLEDGenerator:
   """ 
   A multimodal long short-term memory (LSTM) generator
   """
@@ -79,8 +79,10 @@ class INPUTCOUPLEDGenerator:
       IFOGf[t,3*d:] = np.tanh(IFOG[t, 3*d:]) # tanh
 
       # compute the cell activation
-      C[t] = (IFOGf[t,d:2*d] * IFOGf[t, 3*d:]) - IFOGf[t, 3*d:]
-      if t > 0: C[t] += IFOGf[t,d:2*d] * C[t-1]
+      C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:]
+      if t > 0:
+        C[t] += (1-IFOGf[t,:d] )* C[t-1]
+
       if tanhC_version:
         Hout[t] = IFOGf[t,2*d:3*d] * np.tanh(C[t])
       else:
@@ -166,11 +168,10 @@ class INPUTCOUPLEDGenerator:
         dC[t] += IFOGf[t,2*d:3*d] * dHout[t]
 
       if t > 0:
-        dIFOGf[t,d:2*d] = (IFOGf[t,3*d:]+C[t-1]) * dC[t]
-        dC[t-1] += IFOGf[t,d:2*d] * dC[t]
-
-      # dIFOGf[t,:d] = IFOGf[t, 3*d:] * dC[t]
-      dIFOGf[t, 3*d:] = (IFOGf[t,d:2*d]-1) * dC[t]
+        # dIFOGf[t,d:2*d] = C[t-1] * dC[t]
+        dC[t-1] += (1-IFOGf[t,:d]) * dC[t]
+      dIFOGf[t,:d] = (IFOGf[t, 3*d:]-C[t-1]) * dC[t]
+      dIFOGf[t, 3*d:] = IFOGf[t,:d] * dC[t]
       
       # backprop activation functions
       dIFOG[t,3*d:] = (1 - IFOGf[t, 3*d:] ** 2) * dIFOGf[t,3*d:]
@@ -227,10 +228,7 @@ class INPUTCOUPLEDGenerator:
       IFOG[t] = Hin[t].dot(WLSTM)
       IFOGf[t,:3*d] = 1.0/(1.0+np.exp(-IFOG[t,:3*d]))
       IFOGf[t,3*d:] = np.tanh(IFOG[t, 3*d:])
-
-      # C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev
-      C[t] = (IFOGf[t,d:2*d] * IFOGf[t, 3*d:]) - IFOGf[t, 3*d:]+ IFOGf[t,d:2*d] * c_prev
-
+      C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev
       if tanhC_version:
         Hout[t] = IFOGf[t,2*d:3*d] * np.tanh(C[t])
       else:
