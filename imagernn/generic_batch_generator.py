@@ -20,7 +20,7 @@ def decodeGenerator(generator):
     return NOINPUTGenerator
   if generator == 'noforget':
     return NOFORGETGenerator
-  if generator == 'inputcoupled':
+  if generator == 'icoupled':
     return INPUTCOUPLEDGenerator
   else:
     raise Exception('generator %s is not yet supported' % (base_generator_str,))
