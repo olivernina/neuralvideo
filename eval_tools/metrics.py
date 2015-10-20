@@ -8,7 +8,7 @@ import pylab
 
 
 
-def run(dataset,algName):
+def run(dataset,algName,outDir):
 
     pylab.rcParams['figure.figsize'] = (10.0, 8.0)
 
@@ -17,16 +17,17 @@ def run(dataset,algName):
     encoder.FLOAT_REPR = lambda o: format(o, '.3f')
 
     # set up file names and pathes
-    dataDir='./data/'+dataset
+    # dataDir='./data/'+dataset
     # dataDir= '/media/SSD/projects/NeuralTalkAnimator'
     dataType='val'
 
     # annFile='%s/annotations/captions_%s.json'%(dataDir,dataType)
     # annFile='/media/SSD/projects/NeuralTalkAnimator/data/youtube2text/captions_val2014.json'
+    dataDir = 'data/'+dataset
     annFile='%s/captions_%s.json'%(dataDir,dataType)
     subtypes=['results', 'evalImgs', 'eval']
     [resFile, evalImgsFile, evalFile]= \
-    ['%s/results/captions_%s_%s_%s.json'%(dataDir,dataType,algName,subtype) for subtype in subtypes]
+    ['%s/captions_%s_%s_%s.json'%(outDir,dataType,algName,subtype) for subtype in subtypes]
 
     coco = COCO(annFile)
     cocoRes = coco.loadRes(resFile)

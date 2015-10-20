@@ -102,14 +102,21 @@ def main(params):
   os.system('./multi-bleu.perl reference < output')
   os.chdir(owd)
 
-  # now also evaluate test split perplexity
-  gtppl = eval_split('test', dp, model, checkpoint_params, misc, eval_max_images = max_images)
-  print 'perplexity of ground truth words based on dictionary of %d words: %f' % (len(ixtoword), gtppl)
-  blob['gtppl'] = gtppl
+  # # now also evaluate test split perplexity
+  # gtppl = eval_split('test', dp, model, checkpoint_params, misc, eval_max_images = max_images)
+  # print 'perplexity of ground truth words based on dictionary of %d words: %f' % (len(ixtoword), gtppl)
+  # blob['gtppl'] = gtppl
 
   # dump result struct to file
   print 'saving result struct to %s' % (params['result_struct_filename'], )
   json.dump(blob, open(params['result_struct_filename'], 'w'))
+
+  alg_name = params['checkpoint_path'].split('_')[1]
+  res_file_name = params['out_dir']+'/captions_val_'+alg_name+'_results.json'
+  json.dump(captions_res, open(res_file_name, 'w'))
+
+  from eval_tools import metrics
+  metrics.run(dataset,alg_name,params['out_dir'])
 
 if __name__ == "__main__":
 
@@ -119,6 +126,7 @@ if __name__ == "__main__":
   parser.add_argument('--result_struct_filename', type=str, default='result_struct.json', help='filename of the result struct to save')
   parser.add_argument('-m', '--max_images', type=int, default=-1, help='max images to use')
   parser.add_argument('-d', '--dump_folder', type=str, default="", help='dump the relevant images to a separate folder with this name?')
+  parser.add_argument('-o', '--out_dir', type=str, default="results", help='where predictions will be saved')
 
   args = parser.parse_args()
   params = vars(args) # convert to ordinary dict
