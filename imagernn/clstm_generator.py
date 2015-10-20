@@ -245,8 +245,8 @@ class CLSTMGenerator:
       IFOGf[t,:3*d] = 1.0/(1.0+np.exp(-IFOG[t,:3*d]))
       IFOGf[t,3*d:] = np.tanh(IFOG[t, 3*d:])
 
-      C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev #original
-      # C[t] = IFOGf[t, 3*d:] + c_prev -(IFOGf[t,:d]*c_prev)
+      # C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev #original
+      C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:] + c_prev -(IFOGf[t,:d]*c_prev)
 
       # C[t] = IFOGf[t, 3*d:]
       if tanhC_version:
