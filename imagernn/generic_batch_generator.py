@@ -9,6 +9,7 @@ from imagernn.noforget_generator import NOFORGETGenerator
 from imagernn.icoupled_generator import ICOUPLEDGenerator
 from imagernn.fcoupled_generator import FCOUPLEDGenerator
 from imagernn.iorem_generator import IOREMGenerator
+from imagernn.icorem_generator import ICOREMGenerator
 
 
 def decodeGenerator(generator):
@@ -28,6 +29,8 @@ def decodeGenerator(generator):
     return FCOUPLEDGenerator
   if generator == 'iorem':
     return IOREMGenerator
+  if generator == 'icorem':
+    return ICOREMGenerator
   else:
     raise Exception('generator %s is not yet supported' % (base_generator_str,))
 
