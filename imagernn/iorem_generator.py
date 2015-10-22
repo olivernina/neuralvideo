@@ -231,11 +231,15 @@ class IOREMGenerator:
       IFOG[t] = Hin[t].dot(WLSTM)
       IFOGf[t,:3*d] = 1.0/(1.0+np.exp(-IFOG[t,:3*d]))
       IFOGf[t,3*d:] = np.tanh(IFOG[t, 3*d:])
-      C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev
+
+      C[t] = IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev
+      # C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:] + IFOGf[t,d:2*d] * c_prev
+
       if tanhC_version:
         Hout[t] = IFOGf[t,2*d:3*d] * np.tanh(C[t])
       else:
-        Hout[t] = IFOGf[t,2*d:3*d] * C[t]
+        # Hout[t] = IFOGf[t,2*d:3*d] * C[t]
+        Hout[t] =  C[t]
       Y = Hout.dot(Wd) + bd
       return (Y, Hout, C) # return output, new hidden, new cell
 
