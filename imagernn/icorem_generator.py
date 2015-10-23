@@ -237,7 +237,8 @@ class ICOREMGenerator:
       if tanhC_version:
         Hout[t] = IFOGf[t,2*d:3*d] * np.tanh(C[t])
       else:
-        Hout[t] = IFOGf[t,2*d:3*d] * C[t]
+        # Hout[t] = IFOGf[t,2*d:3*d] * C[t]
+        Hout[t] = C[t]
       Y = Hout.dot(Wd) + bd
       return (Y, Hout, C) # return output, new hidden, new cell
 
