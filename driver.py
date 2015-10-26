@@ -175,6 +175,9 @@ def main(params):
   csvfile = open(os.path.join(params['outdir'],params['generator']+'.csv'),'wb')
   csvout = csv.writer(csvfile,delimiter=',',quotechar='"')
 
+  csv_val_file = open(os.path.join(params['outdir'],params['generator']+'_val.csv'),'wb')
+  csv_val_out = csv.writer(csv_val_file,delimiter=',',quotechar='"')
+
   for it in xrange(max_iters):
     if abort: break
     t0 = time.time()
@@ -242,6 +245,9 @@ def main(params):
     if (((it+1) % eval_period_in_iters) == 0 and it < max_iters - 5) or is_last_iter:
       val_ppl2 = eval_split('val', dp, model, params, misc) # perform the evaluation on VAL set
       print 'validation perplexity = %f' % (val_ppl2, )
+
+      csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2])
+      csv_val_file.flush()
 
       # abort training if the perplexity is no good
       min_ppl_or_abort = params['min_ppl_or_abort']
