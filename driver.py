@@ -260,7 +260,8 @@ def main(params):
       scores = eval_sentence_predictions.run(cp_pred)
       print 'in driver'
       # csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2])
-      csv_val_out.writerow([it,  epoch, scores[0],scores[1],scores[2],scores[3],scores[4],scores[5],scores[6]])
+      print scores
+      csv_val_out.writerow([it,  epoch, scores[0]]) #,scores[1],scores[2],scores[3],scores[4],scores[5],scores[6]
       print 'line written'
       csv_val_file.flush()
 
