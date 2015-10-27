@@ -116,7 +116,92 @@ def main(params):
   json.dump(captions_res, open(res_file_name, 'w'))
 
   from eval_tools import metrics
-  metrics.run(dataset,alg_name,params['out_dir'])
+  scores = metrics.run(dataset,alg_name,params['out_dir'])
+
+  return scores
+
+def run(checkpoint):
+
+
+  max_images = -1
+  dump_folder = ''
+
+  checkpoint_params = checkpoint['params']
+  dataset = checkpoint_params['dataset']
+  model = checkpoint['model']
+  beam_size = 1
+  # dump_folder = params['dump_folder']
+
+
+  # fetch the data provider
+  dp = getDataProvider(dataset)
+
+  misc = {}
+  misc['wordtoix'] = checkpoint['wordtoix']
+  ixtoword = checkpoint['ixtoword']
+
+  blob = {} # output blob which we will dump to JSON for visualizing the results
+  # blob['params'] = params
+  blob['checkpoint_params'] = checkpoint_params
+  blob['imgblobs'] = []
+
+  # iterate over all images in test set and predict sentences
+  BatchGenerator = decodeGenerator(checkpoint_params)
+  n = 0
+  all_references = []
+  all_candidates = []
+  captions_res = []
+  for img in dp.iterImages(split = 'test', max_images = max_images):
+    n+=1
+    print 'image %d/%d:' % (n, max_images)
+    references = [' '.join(x['tokens']) for x in img['sentences']] # as list of lists of tokens
+    kwparams = { 'beam_size' : beam_size }
+    Ys = BatchGenerator.predict([{'image':img}], model, checkpoint_params, **kwparams)
+
+    img_blob = {} # we will build this up
+    img_blob['img_path'] = img['local_file_path']
+    img_blob['imgid'] = img['imgid']
+    img_blob['id'] = img['id']
+
+    if dump_folder:
+      # copy source file to some folder. This makes it easier to distribute results
+      # into a webpage, because all images that were predicted on are in a single folder
+      source_file = img['local_file_path']
+      target_file = os.path.join(dump_folder, os.path.basename(img['local_file_path']))
+      os.system('cp %s %s' % (source_file, target_file))
+
+    # encode the human-provided references
+    img_blob['references'] = []
+    flag = True
+    for gtsent in references:
+      if flag:
+        print 'GT: ' + gtsent
+        flag = False
+      img_blob['references'].append({'text': gtsent})
+
+    # now evaluate and encode the top prediction
+    top_predictions = Ys[0] # take predictions for the first (and only) image we passed in
+    top_prediction = top_predictions[0] # these are sorted with highest on top
+    candidate = ' '.join([ixtoword[ix] for ix in top_prediction[1] if ix > 0]) # ix 0 is the END token, skip that
+    print 'PRED: (%f) %s' % (top_prediction[0], candidate)
+
+    # save for later eval
+    all_references.append(references)
+    all_candidates.append(candidate)
+    captions_res.append({'image_id':img_blob['id'],'caption':candidate})
+    img_blob['candidate'] = {'text': candidate, 'logprob': top_prediction[0]}
+    blob['imgblobs'].append(img_blob)
+
+
+  alg_name = checkpoint['algorithm']
+  res_file_name = checkpoint['outdir']+'/captions_val_'+alg_name+'_results.json'
+  json.dump(captions_res, open(res_file_name, 'w'))
+
+  from eval_tools import metrics
+  scores = metrics.run(dataset,alg_name,checkpoint['outdir'])
+
+  return scores
+
 
 if __name__ == "__main__":
 
