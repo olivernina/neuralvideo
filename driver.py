@@ -12,6 +12,7 @@ import cPickle as pickle
 from imagernn.data_provider import getDataProvider
 from imagernn.solver import Solver
 from imagernn.imagernn_utils import decodeGenerator, eval_split
+import eval_sentence_predictions
 
 def preProBuildWordVocab(sentence_iterator, word_count_threshold):
   # count up all word counts so that we can threshold
@@ -246,7 +247,19 @@ def main(params):
       val_ppl2 = eval_split('val', dp, model, params, misc) # perform the evaluation on VAL set
       print 'validation perplexity = %f' % (val_ppl2, )
 
-      csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2])
+      cp_pred = {}
+      cp_pred['it'] = it
+      cp_pred['epoch'] = epoch
+      cp_pred['model'] = model
+      cp_pred['params'] = params
+      cp_pred['perplexity'] = val_ppl2
+      cp_pred['wordtoix'] = misc['wordtoix']
+      cp_pred['ixtoword'] = misc['ixtoword']
+      cp_pred['algorithm'] = params['generator']
+      cp_pred['outdir'] = params['outdir']
+      scores = eval_sentence_predictions.run(cp_pred)
+
+      csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2,scores[0],scores[1],scores[2],scores[3],scores[4],scores[5],scores[6]])
       csv_val_file.flush()
 
       # abort training if the perplexity is no good
@@ -262,7 +275,7 @@ def main(params):
           # AND we also beat the user-defined threshold or it doesnt exist
           top_val_ppl2 = val_ppl2
           filename = 'model_%s_checkpoint_%s_%s_%s_%.2f.p' % (params['generator'],dataset, host, params['fappend'], val_ppl2)
-          filepath = os.path.join(params['checkpoint_output_directory'], filename)
+          filepath = os.path.join(params['outdir'], filename)
           checkpoint = {}
           checkpoint['it'] = it
           checkpoint['epoch'] = epoch
