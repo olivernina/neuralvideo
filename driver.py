@@ -260,7 +260,10 @@ def main(params):
       scores = eval_sentence_predictions.run(cp_pred)
 
       csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2,scores[0],scores[1],scores[2],scores[3],scores[4],scores[5],scores[6]])
+      print 'line written'
       csv_val_file.flush()
+
+      print 'flash done'
 
       # abort training if the perplexity is no good
       min_ppl_or_abort = params['min_ppl_or_abort']
