@@ -44,6 +44,10 @@ def run(dataset,algName,outDir):
     cocoEval.evaluate()
 
     # print output evaluation scores
+    scores = list()
     for metric, score in cocoEval.eval.items():
         print '%s: %.3f'%(metric, score)
+        scores.append(score)
 
+    print 'inside metrics'
+    return scores
