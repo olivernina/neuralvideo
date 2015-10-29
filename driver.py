@@ -243,7 +243,7 @@ def main(params):
 
     # perform perplexity evaluation on the validation set and save a model checkpoint if it's good
     is_last_iter = (it+1) == max_iters
-    if (((it+1) % eval_period_in_iters) == 0 and it < max_iters - 5) or is_last_iter:
+    if True:#(((it+1) % eval_period_in_iters) == 0 and it < max_iters - 5) or is_last_iter:
       val_ppl2 = eval_split('val', dp, model, params, misc) # perform the evaluation on VAL set
       print 'validation perplexity = %f' % (val_ppl2, )
 
