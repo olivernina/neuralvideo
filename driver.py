@@ -243,7 +243,7 @@ def main(params):
 
     # perform perplexity evaluation on the validation set and save a model checkpoint if it's good
     is_last_iter = (it+1) == max_iters
-    if True:#(((it+1) % eval_period_in_iters) == 0 and it < max_iters - 5) or is_last_iter:
+    if (((it+1) % eval_period_in_iters) == 0 and it < max_iters - 5) or is_last_iter:
       val_ppl2 = eval_split('val', dp, model, params, misc) # perform the evaluation on VAL set
       print 'validation perplexity = %f' % (val_ppl2, )
 
@@ -259,9 +259,9 @@ def main(params):
       cp_pred['outdir'] = params['outdir']
       scores = eval_sentence_predictions.run(cp_pred)
       print 'in driver'
-      # csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2])
+
       print scores
-      csv_val_out.writerow([it,  epoch, scores[0]]) #,scores[1],scores[2],scores[3],scores[4],scores[5],scores[6]
+      csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2, scores[0],scores[1],scores[2],scores[3],scores[4],scores[5],scores[6]])
       print 'line written'
       csv_val_file.flush()
 
