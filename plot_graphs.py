@@ -41,7 +41,7 @@ def loss_plot(argv):
                 axes.set_xlim([0, 2000])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('Loss')
-                pyplot.title('Loss')
+                pyplot.title('Training')
 
             if data[:,column_num].max() > max_y:
                 max_y = data[:,column_num].max()
@@ -84,7 +84,7 @@ def ppl2_plot(argv):
                 axes.set_xlim([0, 2000])
                 pyplot.xlabel('Epochs')
                 pyplot.ylabel('Perplexity')
-                pyplot.title('')
+                pyplot.title('Training')
 
             if data[init_val:,column_num].max() > max_y:
                 max_y = data[init_val:,column_num].max()
@@ -98,7 +98,7 @@ def ppl2_plot(argv):
         else:
             print "file: "+work_dir+filename+" not found"
 
-    pyplot.legend(loc='lower right', shadow=True, fontsize='medium')
+    pyplot.legend(loc='upper right', shadow=True, fontsize='medium')
     pyplot.savefig(os.path.join(work_dir,'ppl2.png'))
 
 def val_plot(argv):
@@ -124,10 +124,10 @@ def val_plot(argv):
                 axes.set_ylim([0, max_y])
                 axes.set_ylim([15, 19])
                 # axes.set_xlim([xmin, max_x])
-                axes.set_xlim([20000, 24500])
+                axes.set_xlim([10000, 24500])
                 pyplot.xlabel('Iter')
-                pyplot.ylabel('ppl2')
-                pyplot.title('Perplexity')
+                pyplot.ylabel('Perplexity')
+                pyplot.title('Validation')
 
             if data[init_val:,column_num].max() > max_y:
                 max_y = data[init_val:,column_num].max()
