@@ -211,8 +211,9 @@ def bleu_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 # axes.set_ylim([0, max_y])
-                axes.set_ylim([.30,.40])
-                axes.set_xlim([xmin, max_x])
+                axes.set_ylim([.25,.40])
+                # axes.set_xlim([xmin, max_x])
+                axes.set_xlim([10000, 250000])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('BLEU')
                 pyplot.title('')
@@ -225,7 +226,7 @@ def bleu_plot(argv):
             #     max_x = data[init_val:,0].max()
             #     axes.set_xlim([0, max_x])
 
-            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename, color=colors[i])
+            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename.split('.')[0], color=colors[i])
         else:
             print "file: "+work_dir+filename+" not found"
 
