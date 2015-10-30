@@ -170,7 +170,7 @@ def bleu_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 # axes.set_ylim([0, max_y])
-                axes.set_ylim([.30,.50])
+                axes.set_ylim([.30,.45])
                 # axes.set_xlim([xmin, max_x])
                 axes.set_xlim([10000, 24500])
                 pyplot.xlabel('Iter')
