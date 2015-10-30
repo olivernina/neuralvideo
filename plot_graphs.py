@@ -54,7 +54,7 @@ def loss_plot(argv):
             print "file: "+work_dir+filename+" not found"
 
     pyplot.legend(loc='upper left', shadow=True, fontsize='medium')
-    pyplot.savefig(work_dir+'loss')
+    pyplot.savefig(os.path.join(work_dir,'loss.png'))
 
 
 def ppl2_plot(argv):
@@ -96,7 +96,7 @@ def ppl2_plot(argv):
             print "file: "+work_dir+filename+" not found"
 
     pyplot.legend(loc='upper left', shadow=True, fontsize='medium')
-    pyplot.savefig(work_dir+'loss')
+    pyplot.savefig(os.path.join(work_dir,'ppl2.png'))
 
 def val_plot(argv):
     colors = ['#FC474C','#8DE047','#FFDD50','#53A3D7']
@@ -353,11 +353,11 @@ if __name__=="__main__":
     work_dir = sys.argv[1]
     plot_type = sys.argv[2]
 
-    if plot_type == 'loss':
+    if plot_type == 'loss': #training loss
         loss_plot(sys.argv[3:])
-    if plot_type == 'ppl2':
+    if plot_type == 'ppl2': #training ppl2
         ppl2_plot(sys.argv[3:])
-    if plot_type == 'val':
+    if plot_type == 'val': #val ppl2
         val_plot(sys.argv[3:])
     if plot_type == 'bleu':
         bleu_plot(sys.argv[3:])
