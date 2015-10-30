@@ -51,7 +51,7 @@ def loss_plot(argv):
                 max_x = data[:,0].max()
                 axes.set_xlim([0, max_x])
 
-            pyplot.plot(data[:,0], data[:,column_num], linewidth=2, label=filename, color=colors[i])
+            pyplot.plot(data[:,0], data[:,column_num], linewidth=2, label=filename.split('.')[0], color=colors[i])
         else:
             print "file: "+work_dir+filename+" not found"
 
@@ -94,7 +94,7 @@ def ppl2_plot(argv):
                 max_x = data[init_val:,0].max()
                 axes.set_xlim([0, max_x])
 
-            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename, color=colors[i])
+            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename.split('.')[0], color=colors[i])
         else:
             print "file: "+work_dir+filename+" not found"
 
@@ -137,7 +137,7 @@ def val_plot(argv):
                 max_x = data[init_val:,0].max()
                 axes.set_xlim([0, max_x])
 
-            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename, color=colors[i])
+            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename.split('.')[0], color=colors[i])
         else:
             print "file: "+work_dir+filename+" not found"
 
@@ -175,7 +175,7 @@ def bleu_plot(argv):
                 axes.set_xlim([10000, 24500])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('BLEU')
-                pyplot.title('')
+                pyplot.title('Validation')
 
             # if data[init_val:,column_num].max() > max_y:
             #     max_y = data[init_val:,column_num].max()
