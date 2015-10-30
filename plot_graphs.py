@@ -124,7 +124,7 @@ def val_plot(argv):
                 axes.set_ylim([0, max_y])
                 axes.set_ylim([15, 19])
                 # axes.set_xlim([xmin, max_x])
-                axes.set_xlim([0, 2000])
+                axes.set_xlim([0, 5000])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('ppl2')
                 pyplot.title('Perplexity')
@@ -217,13 +217,13 @@ def bleu_plot(argv):
                 pyplot.ylabel('BLEU')
                 pyplot.title('')
 
-            if data[init_val:,column_num].max() > max_y:
-                max_y = data[init_val:,column_num].max()
-                axes.set_ylim([0, max_y])
-
-            if data[init_val:,0].max() > max_x:
-                max_x = data[init_val:,0].max()
-                axes.set_xlim([0, max_x])
+            # if data[init_val:,column_num].max() > max_y:
+            #     max_y = data[init_val:,column_num].max()
+            #     axes.set_ylim([0, max_y])
+            #
+            # if data[init_val:,0].max() > max_x:
+            #     max_x = data[init_val:,0].max()
+            #     axes.set_xlim([0, max_x])
 
             pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename, color=colors[i])
         else:
