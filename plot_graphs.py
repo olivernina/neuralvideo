@@ -81,7 +81,7 @@ def ppl2_plot(argv):
 
                 # axes.set_ylim([15, max_y])
                 axes.set_xlim([xmin, max_x])
-                axes.set_xlim([0, 2000])
+                axes.set_xlim([0, 1000])
                 pyplot.xlabel('Epochs')
                 pyplot.ylabel('Perplexity')
                 pyplot.title('Training')
@@ -141,7 +141,7 @@ def val_plot(argv):
         else:
             print "file: "+work_dir+filename+" not found"
 
-    pyplot.legend(loc='upper left', shadow=True, fontsize='medium')
+    pyplot.legend(loc='upper right', shadow=True, fontsize='medium')
     pyplot.savefig(os.path.join(work_dir,'val.png'))
     # pyplot.show()
 
@@ -170,7 +170,7 @@ def bleu_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 # axes.set_ylim([0, max_y])
-                axes.set_ylim([.25,.40])
+                axes.set_ylim([.30,.50])
                 # axes.set_xlim([xmin, max_x])
                 axes.set_xlim([10000, 24500])
                 pyplot.xlabel('Iter')
@@ -189,7 +189,7 @@ def bleu_plot(argv):
         else:
             print "file: "+work_dir+filename+" not found"
 
-    pyplot.legend(loc='lower right', shadow=True, fontsize='medium')
+    pyplot.legend(loc='upper right', shadow=True, fontsize='medium')
     pyplot.savefig(os.path.join(work_dir,'blue.png'))
 
 
