@@ -124,7 +124,7 @@ def val_plot(argv):
                 axes.set_ylim([0, max_y])
                 axes.set_ylim([15, 19])
                 # axes.set_xlim([xmin, max_x])
-                axes.set_xlim([20000, 25000])
+                axes.set_xlim([20000, 24500])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('ppl2')
                 pyplot.title('Perplexity')
@@ -145,48 +145,7 @@ def val_plot(argv):
     pyplot.savefig(os.path.join(work_dir,'val.png'))
     # pyplot.show()
 
-#
-# def bleu_plot(argv):
-#     colors = ['#FC474C','#8DE047','#FFDD50','#53A3D7']
-#     max_x = 0
-#     max_y = 0
-#
-#     column_num = 6
-#     for i,filename in enumerate(argv):
-#         file_path = os.path.join(work_dir,filename)
-#         if os.path.exists(file_path):
-#             data = genfromtxt(file_path,delimiter=',')
-#
-#             init_val = 0
-#             if i==0:
-#                 fig = pyplot.figure(figsize=(6, 6))
-#                 axes = pyplot.gca()
-#                 pyplot.grid()
-#
-#                 max_y = data[init_val:,column_num].max()
-#                 max_x = data[init_val:,0].max()
-#
-#                 # axes.set_ylim([0, max_y])
-#                 axes.set_ylim([0.30, 0.40])
-#                 axes.set_xlim([xmin, max_x])
-#                 pyplot.xlabel('Iter')
-#                 pyplot.ylabel('BLEU')
-#                 pyplot.title('')
-#
-#             if data[init_val:,column_num].max() > max_y:
-#                 max_y = data[init_val:,column_num].max()
-#                 axes.set_ylim([0, max_y])
-#
-#             if data[init_val:,0].max() > max_x:
-#                 max_x = data[init_val:,0].max()
-#                 axes.set_xlim([0, max_x])
-#
-#             pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename, color=colors[i])
-#         else:
-#             print "file: "+work_dir+filename+" not found"
-#
-#     pyplot.legend(loc='upper left', shadow=True, fontsize='medium')
-#     pyplot.savefig(os.path.join(work_dir,'blue.png'))
+
 
 #cider = 5, blue4=6, ..., ROUGE= 10,METEOR=11
 
@@ -213,7 +172,7 @@ def bleu_plot(argv):
                 # axes.set_ylim([0, max_y])
                 axes.set_ylim([.25,.40])
                 # axes.set_xlim([xmin, max_x])
-                axes.set_xlim([10000, 25000])
+                axes.set_xlim([10000, 24500])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('BLEU')
                 pyplot.title('')
