@@ -15,7 +15,7 @@ import os
 
 # First arg is file to de-pickle, second arg is "isTest"
 work_dir = 'results/'
-xmin = 2000
+xmin = 20000
 def loss_plot(argv):
     colors = ['#FC474C','#8DE047','#FFDD50','#53A3D7']
     max_x = 0
@@ -38,7 +38,7 @@ def loss_plot(argv):
 
                 axes.set_ylim([0, max_y])
                 axes.set_xlim([xmin, max_x])
-                pyplot.xlabel('Epochs')
+                pyplot.xlabel('Iter')
                 pyplot.ylabel('Loss')
                 pyplot.title('Loss')
 
@@ -121,7 +121,7 @@ def val_plot(argv):
 
                 axes.set_ylim([0, max_y])
                 axes.set_xlim([xmin, max_x])
-                pyplot.xlabel('Epochs')
+                pyplot.xlabel('Iter')
                 pyplot.ylabel('ppl2')
                 pyplot.title('Perplexity')
 
