@@ -222,7 +222,7 @@ def bleu_plot(argv):
         else:
             print "file: "+work_dir+filename+" not found"
 
-    pyplot.legend(loc='buttom right', shadow=True, fontsize='medium')
+    pyplot.legend(loc='lower right', shadow=True, fontsize='medium')
     pyplot.savefig(os.path.join(work_dir,'blue.png'))
 
 
@@ -264,7 +264,7 @@ def cider_plot(argv):
         else:
             print "file: "+work_dir+filename+" not found"
 
-    pyplot.legend(loc='buttom right', shadow=True, fontsize='medium')
+    pyplot.legend(loc='lower right', shadow=True, fontsize='medium')
     pyplot.savefig(os.path.join(work_dir,'cider.png'))
 
 if __name__=="__main__":
