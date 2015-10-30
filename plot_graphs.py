@@ -78,11 +78,11 @@ def ppl2_plot(argv):
                 max_y = data[init_val:,column_num].max()
                 max_x = data[init_val:,0].max()
 
-                axes.set_ylim([0, max_y])
+                axes.set_ylim([15, max_y])
                 axes.set_xlim([xmin, max_x])
                 pyplot.xlabel('Epochs')
-                pyplot.ylabel('ppl2')
-                pyplot.title('Perplexity')
+                pyplot.ylabel('Perplexity')
+                pyplot.title('')
 
             if data[init_val:,column_num].max() > max_y:
                 max_y = data[init_val:,column_num].max()
@@ -96,7 +96,7 @@ def ppl2_plot(argv):
         else:
             print "file: "+work_dir+filename+" not found"
 
-    pyplot.legend(loc='upper left', shadow=True, fontsize='medium')
+    pyplot.legend(loc='lower right', shadow=True, fontsize='medium')
     pyplot.savefig(os.path.join(work_dir,'ppl2.png'))
 
 def val_plot(argv):
@@ -120,6 +120,7 @@ def val_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 axes.set_ylim([0, max_y])
+                axes.set_ylim([15, 19])
                 axes.set_xlim([xmin, max_x])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('ppl2')
@@ -162,7 +163,8 @@ def bleu_plot(argv):
                 max_y = data[init_val:,column_num].max()
                 max_x = data[init_val:,0].max()
 
-                axes.set_ylim([0, max_y])
+                # axes.set_ylim([0, max_y])
+                axes.set_ylim([0.30, 0.40])
                 axes.set_xlim([xmin, max_x])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('BLEU')
