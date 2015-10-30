@@ -279,3 +279,5 @@ if __name__=="__main__":
         val_plot(sys.argv[3:])
     if plot_type == 'bleu':
         bleu_plot(sys.argv[3:])
+    if plot_type == 'cider':
+        cider_plot(sys.argv[3:])
