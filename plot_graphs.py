@@ -15,6 +15,7 @@ import os
 
 # First arg is file to de-pickle, second arg is "isTest"
 work_dir = 'results/'
+xmin = 2000
 def loss_plot(argv):
     colors = ['#FC474C','#8DE047','#FFDD50','#53A3D7']
     max_x = 0
@@ -36,7 +37,7 @@ def loss_plot(argv):
                 max_x = data[:,0].max()
 
                 axes.set_ylim([0, max_y])
-                axes.set_xlim([0, max_x])
+                axes.set_xlim([xmin, max_x])
                 pyplot.xlabel('Epochs')
                 pyplot.ylabel('Loss')
                 pyplot.title('Loss')
@@ -78,7 +79,7 @@ def ppl2_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 axes.set_ylim([0, max_y])
-                axes.set_xlim([0, max_x])
+                axes.set_xlim([xmin, max_x])
                 pyplot.xlabel('Epochs')
                 pyplot.ylabel('ppl2')
                 pyplot.title('Perplexity')
@@ -119,7 +120,7 @@ def val_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 axes.set_ylim([0, max_y])
-                axes.set_xlim([0, max_x])
+                axes.set_xlim([xmin, max_x])
                 pyplot.xlabel('Epochs')
                 pyplot.ylabel('ppl2')
                 pyplot.title('Perplexity')
@@ -162,7 +163,7 @@ def bleu_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 axes.set_ylim([0, max_y])
-                axes.set_xlim([0, max_x])
+                axes.set_xlim([xmin, max_x])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('BLEU')
                 pyplot.title('')
@@ -205,7 +206,7 @@ def bleu_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 axes.set_ylim([0, max_y])
-                axes.set_xlim([0, max_x])
+                axes.set_xlim([xmin, max_x])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('BLEU')
                 pyplot.title('')
@@ -247,7 +248,7 @@ def cider_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 axes.set_ylim([0, max_y])
-                axes.set_xlim([0, max_x])
+                axes.set_xlim([xmin, max_x])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('CIDEr')
                 pyplot.title('')
@@ -288,7 +289,7 @@ def rouge_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 axes.set_ylim([0, max_y])
-                axes.set_xlim([0, max_x])
+                axes.set_xlim([xmin, max_x])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('ROUGE')
                 pyplot.title('')
@@ -329,7 +330,7 @@ def meteor_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 axes.set_ylim([0, max_y])
-                axes.set_xlim([0, max_x])
+                axes.set_xlim([xmin, max_x])
                 pyplot.xlabel('Iter')
                 pyplot.ylabel('METEOR')
                 pyplot.title('')
