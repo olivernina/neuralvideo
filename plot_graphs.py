@@ -359,7 +359,7 @@ def time_plot(argv):
         else:
             print "file: "+work_dir+filename+" not found"
 
-    pyplot.legend(loc='upper right', shadow=True, fontsize='medium')
+    pyplot.legend(loc='upper left', shadow=True, fontsize='medium')
     pyplot.savefig(os.path.join(work_dir,'time.png'))
 
 if __name__=="__main__":
