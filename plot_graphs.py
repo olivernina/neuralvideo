@@ -352,8 +352,8 @@ def time_plot(argv):
 
             values, base = np.histogram(data[:,column_num], bins=40)
             cumulative = np.cumsum(data[:,2])
-            pyplot.plot(data[:,0],cumulative , linewidth=2, label=filename, c=colors[i])
-            print filename+' '+cumulative[-1]
+            pyplot.plot(data[:,0],cumulative , linewidth=2, label=filename, color=colors[i])
+            print filename+' '+str(cumulative[-1])
 
             # pyplot.plot(base[:-1], cumulative, c='green')
             # pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename, color=colors[i])
