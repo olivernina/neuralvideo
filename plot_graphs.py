@@ -338,9 +338,9 @@ def time_plot(argv):
             #
             #     axes.set_ylim([0, max_y])
             #     axes.set_xlim([xmin, max_x])
-            #     pyplot.xlabel('Iter')
-            #     pyplot.ylabel('TIME')
-            #     pyplot.title('')
+            pyplot.xlabel('Iter')
+            pyplot.ylabel('TIME')
+            pyplot.title('')
             #
             # if data[init_val:,column_num].max() > max_y:
             #     max_y = data[init_val:,column_num].max()
@@ -352,7 +352,7 @@ def time_plot(argv):
 
             values, base = np.histogram(data[:,column_num], bins=40)
             cumulative = np.cumsum(values)
-            pyplot.plot(base[:-1], cumulative, linewidth=2, label=filename, c=colors[i])
+            pyplot.plot(cumulative, base[:-1] , linewidth=2, label=filename, c=colors[i])
 
             # pyplot.plot(base[:-1], cumulative, c='green')
             # pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename, color=colors[i])
