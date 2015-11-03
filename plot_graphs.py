@@ -316,6 +316,47 @@ def meteor_plot(argv):
     pyplot.legend(loc='lower right', shadow=True, fontsize='medium')
     pyplot.savefig(os.path.join(work_dir,'meteor.png'))
 
+def time_plot(argv):
+    colors = ['#FC474C','#8DE047','#FFDD50','#53A3D7']
+    max_x = 0
+    max_y = 0
+
+    column_num = 2
+    for i,filename in enumerate(argv):
+        file_path = os.path.join(work_dir,filename)
+        if os.path.exists(file_path):
+            data = genfromtxt(file_path,delimiter=',')
+
+            init_val = 0
+            if i==0:
+                fig = pyplot.figure(figsize=(6, 6))
+                axes = pyplot.gca()
+                pyplot.grid()
+
+                max_y = data[init_val:,column_num].max()
+                max_x = data[init_val:,0].max()
+
+                axes.set_ylim([0, max_y])
+                axes.set_xlim([xmin, max_x])
+                pyplot.xlabel('Iter')
+                pyplot.ylabel('TIME')
+                pyplot.title('')
+
+            if data[init_val:,column_num].max() > max_y:
+                max_y = data[init_val:,column_num].max()
+                axes.set_ylim([0, max_y])
+
+            if data[init_val:,0].max() > max_x:
+                max_x = data[init_val:,0].max()
+                axes.set_xlim([0, max_x])
+
+            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename, color=colors[i])
+        else:
+            print "file: "+work_dir+filename+" not found"
+
+    pyplot.legend(loc='upper right', shadow=True, fontsize='medium')
+    pyplot.savefig(os.path.join(work_dir,'time.png'))
+
 if __name__=="__main__":
     work_dir = sys.argv[1]
     plot_type = sys.argv[2]
@@ -334,3 +375,5 @@ if __name__=="__main__":
         rouge_plot(sys.argv[3:])
     if plot_type == 'meteor':
         meteor_plot(sys.argv[3:])
+    if plot_type == 'time':
+        time_plot(sys.argv[3:])
