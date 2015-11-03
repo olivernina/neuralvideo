@@ -327,30 +327,35 @@ def time_plot(argv):
         if os.path.exists(file_path):
             data = genfromtxt(file_path,delimiter=',')
 
-            init_val = 0
-            if i==0:
-                fig = pyplot.figure(figsize=(6, 6))
-                axes = pyplot.gca()
-                pyplot.grid()
+            # init_val = 0
+            # if i==0:
+            #     fig = pyplot.figure(figsize=(6, 6))
+            #     axes = pyplot.gca()
+            #     pyplot.grid()
+            #
+            #     max_y = data[init_val:,column_num].max()
+            #     max_x = data[init_val:,0].max()
+            #
+            #     axes.set_ylim([0, max_y])
+            #     axes.set_xlim([xmin, max_x])
+            #     pyplot.xlabel('Iter')
+            #     pyplot.ylabel('TIME')
+            #     pyplot.title('')
+            #
+            # if data[init_val:,column_num].max() > max_y:
+            #     max_y = data[init_val:,column_num].max()
+            #     axes.set_ylim([0, max_y])
+            #
+            # if data[init_val:,0].max() > max_x:
+            #     max_x = data[init_val:,0].max()
+            #     axes.set_xlim([0, max_x])
 
-                max_y = data[init_val:,column_num].max()
-                max_x = data[init_val:,0].max()
+            values, base = np.histogram(data[:,column_num], bins=40)
+            cumulative = np.cumsum(values)
+            pyplot.plot(base[:-1], cumulative, c=colors[i])
 
-                axes.set_ylim([0, max_y])
-                axes.set_xlim([xmin, max_x])
-                pyplot.xlabel('Iter')
-                pyplot.ylabel('TIME')
-                pyplot.title('')
-
-            if data[init_val:,column_num].max() > max_y:
-                max_y = data[init_val:,column_num].max()
-                axes.set_ylim([0, max_y])
-
-            if data[init_val:,0].max() > max_x:
-                max_x = data[init_val:,0].max()
-                axes.set_xlim([0, max_x])
-
-            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename, color=colors[i])
+            # pyplot.plot(base[:-1], cumulative, c='green')
+            # pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename, color=colors[i])
         else:
             print "file: "+work_dir+filename+" not found"
 
