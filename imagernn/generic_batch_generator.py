@@ -11,6 +11,7 @@ from imagernn.fcoupled_generator import FCOUPLEDGenerator
 from imagernn.iorem_generator import IOREMGenerator
 from imagernn.icorem_generator import ICOREMGenerator
 from imagernn.gru_generator import GRUGenerator
+from imagernn.blstm_generator import BLSTMGenerator
 
 def decodeGenerator(generator):
   if generator == 'lstm':
@@ -31,8 +32,10 @@ def decodeGenerator(generator):
     return IOREMGenerator
   if generator == 'icorem':
     return ICOREMGenerator
-  if generator == 'forgetb':
-    return FORGETBGenerator
+  # if generator == 'forgetb':
+  #   return FORGETBGenerator
+  if generator == 'blstm':
+    return BLSTMGenerator
   if generator == 'gru':
     return GRUGenerator
   else:
