@@ -14,8 +14,9 @@ class BLSTMGenerator:
     model = {}
     # Recurrent weights: take x_t, h_{t-1}, and bias unit
     # and produce the 3 gates and the input to cell signal
-    # model['WLSTM'] = initw(input_size + hidden_size + 1, 4 * hidden_size)
-    model['WLSTM'] = np.random.randn(input_size + hidden_size + 1, 4 * hidden_size) / np.sqrt(input_size + hidden_size)
+    # model['WLSTM'] = initw(input_size + hidden_size + 1, 4 * hidden_size) #original
+    # model['WLSTM'] = np.random.randn(input_size + hidden_size + 1, 4 * hidden_size) / np.sqrt(input_size + hidden_size) #Karpathy
+    model['WLSTM'] = initw(input_size + hidden_size + 1, 4 * hidden_size) / np.sqrt(input_size + hidden_size) #Andrey's suggestion
     model['WLSTM'][0,:] = 0 # initialize biases to zero
     fancy_forget_bias_init = 3
      # if fancy_forget_bias_init != 0:
