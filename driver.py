@@ -343,7 +343,7 @@ if __name__ == "__main__":
   parser.add_argument('--eval_batch_size', dest='eval_batch_size', type=int, default=100, help='for faster validation performance evaluation, what batch size to use on val img/sentences?')
   parser.add_argument('--eval_max_images', dest='eval_max_images', type=int, default=-1, help='for efficiency we can use a smaller number of images to get validation error')
   parser.add_argument('--min_ppl_or_abort', dest='min_ppl_or_abort', type=float , default=-1, help='if validation perplexity is below this threshold the job will abort')
-  parser.add_argument('--outdir', type=str, default='results_sdyoutube/', help='where output files will be saved')
+  parser.add_argument('--outdir', type=str, default='results_youtube2txt/', help='where output files will be saved')
 
   import sys
 
