@@ -303,7 +303,7 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser()
 
   # global setup settings, and checkpoints
-  parser.add_argument('-d', '--dataset', dest='dataset', default='sdyoutube', help='dataset: youtube2text/flickr30k')
+  parser.add_argument('-d', '--dataset', dest='dataset', default='youtube2text', help='dataset: youtube2text/flickr30k')
   parser.add_argument('-a', '--do_grad_check', dest='do_grad_check', type=int, default=0, help='perform gradcheck? program will block for visual inspection and will need manual user input')
   parser.add_argument('--fappend', dest='fappend', type=str, default='baseline', help='append this string to checkpoint filenames')
   parser.add_argument('-o', '--checkpoint_output_directory', dest='checkpoint_output_directory', type=str, default='cv/', help='output directory to write checkpoints to')
