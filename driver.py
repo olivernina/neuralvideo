@@ -121,7 +121,7 @@ def main(params):
   word_count_threshold = params['word_count_threshold']
   do_grad_check = params['do_grad_check']
   max_epochs = params['max_epochs']
-  host = socket.gethostname() # get computer hostname
+
 
   # fetch the data provider
   dp = getDataProvider(dataset)
@@ -200,7 +200,9 @@ def main(params):
 
     csvout.writerow([it, max_iters, dt, epoch, cost['loss_cost'], cost['reg_cost'],train_ppl2, smooth_train_ppl2])
     csvfile.flush()
-    sys.stdout.flush()
+
+    if not host=='oliver-Aurora-R4':
+      sys.stdout.flush()
 
     # os.system('./update_plots.sh')
 
@@ -257,15 +259,12 @@ def main(params):
       cp_pred['ixtoword'] = misc['ixtoword']
       cp_pred['algorithm'] = params['generator']
       cp_pred['outdir'] = params['outdir']
-      scores = eval_sentence_predictions.run(cp_pred)
-      print 'in driver'
 
-      print scores
-      csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2, scores[0],scores[1],scores[2],scores[3],scores[4],scores[5],scores[6]])
-      print 'line written'
-      csv_val_file.flush()
+      if is_last_iter:
+        scores = eval_sentence_predictions.run(cp_pred)
+        csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2, scores[0],scores[1],scores[2],scores[3],scores[4],scores[5],scores[6]])
+        csv_val_file.flush()
 
-      print 'flash done'
 
       # abort training if the perplexity is no good
       min_ppl_or_abort = params['min_ppl_or_abort']
@@ -304,7 +303,7 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser()
 
   # global setup settings, and checkpoints
-  parser.add_argument('-d', '--dataset', dest='dataset', default='youtube2text', help='dataset: flickr8k/flickr30k')
+  parser.add_argument('-d', '--dataset', dest='dataset', default='sdyoutube', help='dataset: youtube2text/flickr30k')
   parser.add_argument('-a', '--do_grad_check', dest='do_grad_check', type=int, default=0, help='perform gradcheck? program will block for visual inspection and will need manual user input')
   parser.add_argument('--fappend', dest='fappend', type=str, default='baseline', help='append this string to checkpoint filenames')
   parser.add_argument('-o', '--checkpoint_output_directory', dest='checkpoint_output_directory', type=str, default='cv/', help='output directory to write checkpoints to')
@@ -344,7 +343,7 @@ if __name__ == "__main__":
   parser.add_argument('--eval_batch_size', dest='eval_batch_size', type=int, default=100, help='for faster validation performance evaluation, what batch size to use on val img/sentences?')
   parser.add_argument('--eval_max_images', dest='eval_max_images', type=int, default=-1, help='for efficiency we can use a smaller number of images to get validation error')
   parser.add_argument('--min_ppl_or_abort', dest='min_ppl_or_abort', type=float , default=-1, help='if validation perplexity is below this threshold the job will abort')
-  parser.add_argument('--outdir', type=str, default='results_metrics/', help='where output files will be saved')
+  parser.add_argument('--outdir', type=str, default='results_sdyoutube/', help='where output files will be saved')
 
   import sys
 
@@ -355,7 +354,9 @@ if __name__ == "__main__":
   if not os.path.exists(params['outdir']):
     os.mkdir(params['outdir'])
 
-  sys.stdout = open(os.path.join(params['outdir'],params['generator']+'.log'),'w')
+  host = socket.gethostname() # get computer hostname
+  if not host=='oliver-Aurora-R4':
+    sys.stdout = open(os.path.join(params['outdir'],params['generator']+'.log'),'w')
 
   print 'parsed parameters:'
   print json.dumps(params, indent = 2)
