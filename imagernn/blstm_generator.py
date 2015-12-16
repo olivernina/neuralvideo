@@ -91,7 +91,16 @@ class BLSTMGenerator:
 
       # compute the cell activation
       C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:]
-      if t > 0: C[t] += IFOGf[t,d:2*d] * C[t-1]
+      if t > 0:
+        #dropout
+        if drop_prob_decoder > 0: # if we want dropout on the decoder
+          if not predict_mode: # and we are in training mode
+            scale2 = 1.0
+            fd = (np.random.rand(*(IFOGf[t,d:2*d].shape)) < (1 - drop_prob_decoder)) * scale2 # generate scaled mask
+            # Hout *= U2 # drop!
+            IFOGf[t,d:2*d] *= fd
+
+        C[t] += IFOGf[t,d:2*d] * C[t-1]
       if tanhC_version:
         Hout[t] = IFOGf[t,2*d:3*d] * np.tanh(C[t])
       else:
