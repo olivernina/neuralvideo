@@ -89,16 +89,24 @@ class BLSTMGenerator:
       IFOGf[t,:3*d] = 1.0/(1.0+np.exp(-IFOG[t,:3*d])) # sigmoids; these are the gates
       IFOGf[t,3*d:] = np.tanh(IFOG[t, 3*d:]) # tanh
 
+      #dropout
+      if drop_prob_decoder > 0: # if we want dropout on the decoder
+        if not predict_mode: # and we are in training mode
+          scale2 = 1.0
+          id = (np.random.rand(*(IFOGf[t,:d].shape)) < (1 - drop_prob_decoder)) * scale2 # generate scaled mask
+          # Hout *= U2 # drop!
+          IFOGf[t,:d] *= id
+
       # compute the cell activation
       C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:]
       if t > 0:
-        #dropout
-        if drop_prob_decoder > 0: # if we want dropout on the decoder
-          if not predict_mode: # and we are in training mode
-            scale2 = 1.0
-            fd = (np.random.rand(*(IFOGf[t,d:2*d].shape)) < (1 - drop_prob_decoder)) * scale2 # generate scaled mask
-            # Hout *= U2 # drop!
-            IFOGf[t,d:2*d] *= fd
+        # #dropout
+        # if drop_prob_decoder > 0: # if we want dropout on the decoder
+        #   if not predict_mode: # and we are in training mode
+        #     scale2 = 1.0
+        #     fd = (np.random.rand(*(IFOGf[t,d:2*d].shape)) < (1 - drop_prob_decoder)) * scale2 # generate scaled mask
+        #     # Hout *= U2 # drop!
+        #     IFOGf[t,d:2*d] *= fd
 
         C[t] += IFOGf[t,d:2*d] * C[t-1]
       if tanhC_version:
