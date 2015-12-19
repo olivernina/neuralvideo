@@ -13,6 +13,7 @@ from imagernn.data_provider import getDataProvider
 from imagernn.solver import Solver
 from imagernn.imagernn_utils import decodeGenerator, eval_split
 import eval_sentence_predictions
+import omail
 
 def preProBuildWordVocab(sentence_iterator, word_count_threshold):
   # count up all word counts so that we can threshold
@@ -264,6 +265,7 @@ def main(params):
         scores = eval_sentence_predictions.run(cp_pred)
         csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2, scores[0],scores[1],scores[2],scores[3],scores[4],scores[5],scores[6]])
         csv_val_file.flush()
+	omail.send('job finished'+params['generator'],'done')
 
 
       # abort training if the perplexity is no good
@@ -289,8 +291,8 @@ def main(params):
           checkpoint['wordtoix'] = misc['wordtoix']
           checkpoint['ixtoword'] = misc['ixtoword']
 
-          cp_pred['algorithm'] = params['generator']
-          cp_pred['outdir'] = params['outdir']
+          checkpoint['algorithm'] = params['generator']
+          checkpoint['outdir'] = params['outdir']
 
           try:
             pickle.dump(checkpoint, open(filepath, "wb"))
