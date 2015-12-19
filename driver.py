@@ -288,6 +288,10 @@ def main(params):
           checkpoint['perplexity'] = val_ppl2
           checkpoint['wordtoix'] = misc['wordtoix']
           checkpoint['ixtoword'] = misc['ixtoword']
+
+          cp_pred['algorithm'] = params['generator']
+          cp_pred['outdir'] = params['outdir']
+
           try:
             pickle.dump(checkpoint, open(filepath, "wb"))
             print 'saved checkpoint in %s' % (filepath, )
@@ -295,10 +299,9 @@ def main(params):
             print 'tried to write checkpoint into %s but got error: ' % (filepat, )
             print e
 
-          #this part appears to be crashing
-          # scores = eval_sentence_predictions.run(checkpoint)
-          # csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2, scores[0],scores[1],scores[2],scores[3],scores[4],scores[5],scores[6]])
-          # csv_val_file.flush()
+          scores = eval_sentence_predictions.run(checkpoint)
+          csv_val_out.writerow([it, max_iters, dt, epoch, val_ppl2, scores[0],scores[1],scores[2],scores[3],scores[4],scores[5],scores[6]])
+          csv_val_file.flush()
 
 
   csvout.close()
