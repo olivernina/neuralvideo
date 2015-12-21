@@ -12,6 +12,7 @@ from imagernn.iorem_generator import IOREMGenerator
 from imagernn.icorem_generator import ICOREMGenerator
 from imagernn.gru_generator import GRUGenerator
 from imagernn.blstm_generator import BLSTMGenerator
+from imagernn.bclstm_generator import BCLSTMGenerator
 
 def decodeGenerator(generator):
   if generator == 'lstm':
@@ -36,6 +37,8 @@ def decodeGenerator(generator):
   #   return FORGETBGenerator
   if generator == 'blstm':
     return BLSTMGenerator
+  if generator == 'bclstm':
+    return BCLSTMGenerator
   if generator == 'gru':
     return GRUGenerator
   else:
