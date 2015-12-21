@@ -13,8 +13,9 @@ def merge_init_structs(s0, s1):
   s0['update'].extend(s1['update'])
   s0['regularize'].extend(s1['regularize'])
 
-def initw(n,d): # initialize matrix of this size
-  magic_number = 0.1
+def initw(n,d,magic_number=0.1): # initialize matrix of this size
+  # magic_number = 0.1 #Original
+  # magic_number = 1
   return (np.random.rand(n,d) * 2 - 1) * magic_number # U[-0.1, 0.1]
 
 def accumNpDicts(d0, d1):
