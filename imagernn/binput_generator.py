@@ -60,6 +60,7 @@ class BINPUTGenerator:
     n = X.shape[0]
     d = model['Wd'].shape[0] # size of hidden layer
     Hin = np.zeros((n, WLSTM.shape[0])) # xt, ht-1, bias
+    Hind = np.zeros((n, WLSTM.shape[0])) # xt, ht-1, bias
     Hout = np.zeros((n, d))
     IFOG = np.zeros((n, d * 4))
     IFOGf = np.zeros((n, d * 4)) # after nonlinearity
@@ -76,17 +77,22 @@ class BINPUTGenerator:
       # compute all gate activations. dots:
       IFOG[t] = Hin[t].dot(WLSTM)
 
+      #dropout
+      if drop_prob_decoder > 0 :# and t==0:
+        if not predict_mode: # and we are in training mode
+          scale2 = 1.0
+          drop = (np.random.rand(*(Hin[t,1:1+d].shape)) < (1 - drop_prob_decoder)) * scale2 # generate scaled mask
+          Hind[t] = Hin[t]
+          Hind[t,1:1+d]*= drop
+          IFOG[t,:d] = Hind[t].dot(WLSTM[:,:d])
+
+
       # non-linearities
       IFOGf[t,:3*d] = 1.0/(1.0+np.exp(-IFOG[t,:3*d])) # sigmoids; these are the gates
       IFOGf[t,3*d:] = np.tanh(IFOG[t, 3*d:]) # tanh
 
 
-      #dropout
-      if drop_prob_decoder > 0 and t==0:
-        if not predict_mode: # and we are in training mode
-          scale2 = 1.0
-          id = (np.random.rand(*(IFOGf[t,:d].shape)) < (1 - drop_prob_decoder)) * scale2 # generate scaled mask
-          IFOGf[t,:d] *= id
+
 
 
       # compute the cell activation
