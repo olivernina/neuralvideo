@@ -64,7 +64,8 @@ class BINPUTGenerator:
     IFOG = np.zeros((n, d * 4))
     IFOGf = np.zeros((n, d * 4)) # after nonlinearity
     C = np.zeros((n, d))
-    IFOGf[:,:d] = 1
+
+
     for t in xrange(n):
       # set input
       prev = np.zeros(d) if t == 0 else Hout[t-1]
@@ -75,12 +76,18 @@ class BINPUTGenerator:
       # compute all gate activations. dots:
       IFOG[t] = Hin[t].dot(WLSTM)
 
-
-
-      
       # non-linearities
       IFOGf[t,:3*d] = 1.0/(1.0+np.exp(-IFOG[t,:3*d])) # sigmoids; these are the gates
       IFOGf[t,3*d:] = np.tanh(IFOG[t, 3*d:]) # tanh
+
+
+      #dropout
+      if drop_prob_decoder > 0 and t==0:
+        if not predict_mode: # and we are in training mode
+          scale2 = 1.0
+          id = (np.random.rand(*(IFOGf[t,:d].shape)) < (1 - drop_prob_decoder)) * scale2 # generate scaled mask
+          IFOGf[t,:d] *= id
+
 
       # compute the cell activation
       C[t] = IFOGf[t,:d] * IFOGf[t, 3*d:]
