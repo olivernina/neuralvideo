@@ -6,6 +6,7 @@ from imagernn.rnn_generator import RNNGenerator
 from imagernn.clstm_generator import CLSTMGenerator
 from imagernn.noinput_generator import NOINPUTGenerator
 from imagernn.noforget_generator import NOFORGETGenerator
+from imagernn.forgetb_generator import FORGETBGenerator
 from imagernn.icoupled_generator import ICOUPLEDGenerator
 from imagernn.fcoupled_generator import FCOUPLEDGenerator
 from imagernn.iorem_generator import IOREMGenerator
@@ -13,6 +14,7 @@ from imagernn.icorem_generator import ICOREMGenerator
 from imagernn.gru_generator import GRUGenerator
 from imagernn.blstm_generator import BLSTMGenerator
 from imagernn.bclstm_generator import BCLSTMGenerator
+from imagernn.binput_generator import BINPUTGenerator
 
 def decodeGenerator(generator):
   if generator == 'lstm':
@@ -33,14 +35,16 @@ def decodeGenerator(generator):
     return IOREMGenerator
   if generator == 'icorem':
     return ICOREMGenerator
-  # if generator == 'forgetb':
-  #   return FORGETBGenerator
+  if generator == 'forgetb':
+    return FORGETBGenerator
   if generator == 'blstm':
     return BLSTMGenerator
   if generator == 'bclstm':
     return BCLSTMGenerator
   if generator == 'gru':
     return GRUGenerator
+  if generator == 'binput':
+    return BINPUTGenerator
   else:
     raise Exception('generator %s is not yet supported' % (base_generator_str,))
 
