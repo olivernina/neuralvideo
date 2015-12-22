@@ -15,6 +15,7 @@ from imagernn.gru_generator import GRUGenerator
 from imagernn.blstm_generator import BLSTMGenerator
 from imagernn.bclstm_generator import BCLSTMGenerator
 from imagernn.binput_generator import BINPUTGenerator
+from imagernn.bicoupled_generator import BICOUPLEDGenerator
 
 def decodeGenerator(generator):
   if generator == 'lstm':
@@ -45,6 +46,8 @@ def decodeGenerator(generator):
     return GRUGenerator
   if generator == 'binput':
     return BINPUTGenerator
+  if generator == 'bicoupled':
+    return BICOUPLEDGenerator
   else:
     raise Exception('generator %s is not yet supported' % (base_generator_str,))
 
