@@ -14,13 +14,14 @@ class BICOUPLEDGenerator:
     model = {}
     # Recurrent weights: take x_t, h_{t-1}, and bias unit
     # and produce the 3 gates and the input to cell signal
-    model['WLSTM'] = initw(input_size + hidden_size + 1, 4 * hidden_size)
+    # model['WLSTM'] = initw(input_size + hidden_size + 1, 4 * hidden_size)
 
-    # #fancy initialization
-    # model['WLSTM'] = initw(input_size + hidden_size + 1, 4 * hidden_size,1.) / np.sqrt(input_size + hidden_size)
-    # model['WLSTM'][0,:] = 0 # initialize biases to zero
-    # fancy_forget_bias_init = 3
-    # model['WLSTM'][0,hidden_size:2*hidden_size] = fancy_forget_bias_init
+    #fancy initialization
+    model['WLSTM'] = initw(input_size + hidden_size + 1, 4 * hidden_size,1.) / np.sqrt(input_size + hidden_size)
+    model['WLSTM'][0,:] = 0 # initialize biases to zero
+    fancy_forget_bias_init = 3
+    # model['WLSTM'][0,hidden_size:2*hidden_size] = fancy_forget_bias_init #forget bias
+    model['WLSTM'][0,:hidden_size] = fancy_forget_bias_init # input bias
 
     # Decoder weights (e.g. mapping to vocabulary)
     model['Wd'] = initw(hidden_size, output_size) # decoder
