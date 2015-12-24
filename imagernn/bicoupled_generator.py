@@ -84,14 +84,14 @@ class BICOUPLEDGenerator:
       IFOG[t] = Hin[t].dot(WLSTM)
 
 
-      #dropout on input gate
-      if drop_prob_decoder > 0 :# and t==0:
-        if not predict_mode: # and we are in training mode
-          scale2 = 1.0
-          drop = (np.random.rand(*(Hin[t,1:1+d].shape)) < (1 - drop_prob_decoder)) * scale2 # generate scaled mask
-          Hind[t] = Hin[t]
-          Hind[t,1:1+d]*= drop
-          IFOG[t,:d] = Hind[t].dot(WLSTM[:,:d])
+      # #dropout on input gate
+      # if drop_prob_decoder > 0 :# and t==0:
+      #   if not predict_mode: # and we are in training mode
+      #     scale2 = 1.0
+      #     drop = (np.random.rand(*(Hin[t,1:1+d].shape)) < (1 - drop_prob_decoder)) * scale2 # generate scaled mask
+      #     Hind[t] = Hin[t]
+      #     Hind[t,1:1+d]*= drop
+      #     IFOG[t,:d] = Hind[t].dot(WLSTM[:,:d])
 
 
 
