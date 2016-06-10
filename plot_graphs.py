@@ -36,27 +36,28 @@ def loss_plot(argv):
                 max_y = data[:,column_num].max()
                 max_x = data[:,0].max()
 
-                axes.set_ylim([0, max_y])
+                #axes.set_ylim([0, max_y])
                 # axes.set_xlim([xmin, max_x])
-                axes.set_xlim([0, 2000])
-                pyplot.xlabel('Iter')
+                axes.set_ylim([0, 50])
+                axes.set_xlim([15, 2000])
+                pyplot.xlabel('Iterations')
                 pyplot.ylabel('Loss')
                 pyplot.title('Training')
 
-            if data[:,column_num].max() > max_y:
-                max_y = data[:,column_num].max()
-                axes.set_ylim([0, max_y])
+            #if data[:,column_num].max() > max_y:
+             #   max_y = data[:,column_num].max()
+              #  axes.set_ylim([0, max_y])
 
-            if data[:,0].max() > max_x:
-                max_x = data[:,0].max()
-                axes.set_xlim([0, max_x])
+            #if data[:,0].max() > max_x:
+             #   max_x = data[:,0].max()
+              #  axes.set_xlim([0, max_x])
 
             pyplot.plot(data[:,0], data[:,column_num], linewidth=2, label=filename.split('.')[0], color=colors[i])
         else:
             print "file: "+work_dir+filename+" not found"
 
     pyplot.legend(loc='upper right', shadow=True, fontsize='medium')
-    pyplot.savefig(os.path.join(work_dir,'loss.png'))
+    pyplot.savefig(os.path.join(work_dir,'loss.eps'))
 
 
 def ppl2_plot(argv):
@@ -80,26 +81,27 @@ def ppl2_plot(argv):
                 max_x = data[init_val:,0].max()
 
                 # axes.set_ylim([15, max_y])
-                axes.set_xlim([xmin, max_x])
-                axes.set_xlim([0, 1000])
-                pyplot.xlabel('Epochs')
+                #axes.set_xlim([xmin, max_x])
+                axes.set_ylim([0, 70])
+                axes.set_xlim([15, 1000])
+                pyplot.xlabel('Iterations')
                 pyplot.ylabel('Perplexity')
                 pyplot.title('Training')
 
-            if data[init_val:,column_num].max() > max_y:
-                max_y = data[init_val:,column_num].max()
-                axes.set_ylim([0, max_y])
+           # if data[init_val:,column_num].max() > max_y:
+            #    max_y = data[init_val:,column_num].max()
+             #   axes.set_ylim([0, max_y])
 
-            if data[init_val:,0].max() > max_x:
-                max_x = data[init_val:,0].max()
-                axes.set_xlim([0, max_x])
+           # if data[init_val:,0].max() > max_x:
+            #    max_x = data[init_val:,0].max()
+             #   axes.set_xlim([0, max_x])
 
             pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename.split('.')[0], color=colors[i])
         else:
             print "file: "+work_dir+filename+" not found"
 
     pyplot.legend(loc='upper right', shadow=True, fontsize='medium')
-    pyplot.savefig(os.path.join(work_dir,'ppl2.png'))
+    pyplot.savefig(os.path.join(work_dir,'ppl2.eps'))
 
 def val_plot(argv):
     colors = ['#FC474C','#8DE047','#FFDD50','#53A3D7']
@@ -121,28 +123,34 @@ def val_plot(argv):
                 max_y = data[init_val:,column_num].max()
                 max_x = data[init_val:,0].max()
 
-                axes.set_ylim([0, max_y])
-                axes.set_ylim([15, 19])
-                # axes.set_xlim([xmin, max_x])
-                axes.set_xlim([10000, 24500])
-                pyplot.xlabel('Iter')
+                #axes.set_ylim([0, max_y])
+                axes.set_ylim([14, 19])
+                axes.set_xlim([xmin, max_x])
+                axes.set_xlim([0, 24500])
+                pyplot.xlabel('Iterations')
                 pyplot.ylabel('Perplexity')
                 pyplot.title('Validation')
 
             if data[init_val:,column_num].max() > max_y:
                 max_y = data[init_val:,column_num].max()
-                axes.set_ylim([0, max_y])
+                #axes.set_ylim([0, max_y])
 
             if data[init_val:,0].max() > max_x:
                 max_x = data[init_val:,0].max()
                 axes.set_xlim([0, max_x])
+            from scipy.interpolate import spline
+            x_smooth = np.linspace(0, max_x, 100)
+	    y_smooth = spline(data[init_val:,0],data[init_val:,column_num],x_smooth)
 
-            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename.split('.')[0], color=colors[i])
+            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename.split('.')[0].split('_')[0], color=colors[i])
+
+
+           #pyplot.plot(x_smooth, y_smooth, linewidth=2, label=filename.split('.')[0].split('_')[0], color=colors[i])
         else:
             print "file: "+work_dir+filename+" not found"
 
     pyplot.legend(loc='upper right', shadow=True, fontsize='medium')
-    pyplot.savefig(os.path.join(work_dir,'val.png'))
+    pyplot.savefig(os.path.join(work_dir,'val.eps'))
     # pyplot.show()
 
 
@@ -172,8 +180,8 @@ def bleu_plot(argv):
                 # axes.set_ylim([0, max_y])
                 axes.set_ylim([.30,.45])
                 # axes.set_xlim([xmin, max_x])
-                axes.set_xlim([10000, 24500])
-                pyplot.xlabel('Iter')
+                axes.set_xlim([0, 24500])
+                pyplot.xlabel('Iterations')
                 pyplot.ylabel('BLEU')
                 pyplot.title('Validation')
 
@@ -185,12 +193,12 @@ def bleu_plot(argv):
             #     max_x = data[init_val:,0].max()
             #     axes.set_xlim([0, max_x])
 
-            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename.split('.')[0], color=colors[i])
+            pyplot.plot(data[init_val:,0], data[init_val:,column_num], linewidth=2, label=filename.split('.')[0].split('_')[0], color=colors[i])
         else:
             print "file: "+work_dir+filename+" not found"
 
     pyplot.legend(loc='upper right', shadow=True, fontsize='medium')
-    pyplot.savefig(os.path.join(work_dir,'blue.png'))
+    pyplot.savefig(os.path.join(work_dir,'blue.eps'))
 
 
 def cider_plot(argv):
@@ -232,7 +240,7 @@ def cider_plot(argv):
             print "file: "+work_dir+filename+" not found"
 
     pyplot.legend(loc='lower right', shadow=True, fontsize='medium')
-    pyplot.savefig(os.path.join(work_dir,'cider.png'))
+    pyplot.savefig(os.path.join(work_dir,'cider.eps'))
 
 def rouge_plot(argv):
     colors = ['#FC474C','#8DE047','#FFDD50','#53A3D7']
@@ -273,7 +281,7 @@ def rouge_plot(argv):
             print "file: "+work_dir+filename+" not found"
 
     pyplot.legend(loc='lower right', shadow=True, fontsize='medium')
-    pyplot.savefig(os.path.join(work_dir,'rouge.png'))
+    pyplot.savefig(os.path.join(work_dir,'rouge.eps'))
 
 def meteor_plot(argv):
     colors = ['#FC474C','#8DE047','#FFDD50','#53A3D7']
@@ -314,7 +322,7 @@ def meteor_plot(argv):
             print "file: "+work_dir+filename+" not found"
 
     pyplot.legend(loc='lower right', shadow=True, fontsize='medium')
-    pyplot.savefig(os.path.join(work_dir,'meteor.png'))
+    pyplot.savefig(os.path.join(work_dir,'meteor.eps'))
 
 def time_plot(argv):
     colors = ['#FC474C','#8DE047','#FFDD50','#53A3D7']
@@ -361,7 +369,7 @@ def time_plot(argv):
             print "file: "+work_dir+filename+" not found"
 
     pyplot.legend(loc='upper left', shadow=True, fontsize='medium')
-    pyplot.savefig(os.path.join(work_dir,'time.png'))
+    pyplot.savefig(os.path.join(work_dir,'time.eps'))
 
 if __name__=="__main__":
     work_dir = sys.argv[1]
